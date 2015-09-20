@@ -1,0 +1,16 @@
+{
+  "name": "hidenc",
+  "version": "0.1.0",
+  "description": "a cli tool to encrypt/decrypt files",
+  "main": "hidenc.js",
+  "keywords": [
+    "cli",
+    "encrypt",
+    "decrypt"
+  ],
+  "dependencies": {
+    "file-encryptor": "^0.1.0",
+    "underscore": "^1.8.3"
+  },
+  "preferGlobal": true
+}
