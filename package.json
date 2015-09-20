@@ -1,6 +1,6 @@
 {
   "name": "hidenc",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "a cli tool to encrypt/decrypt files",
   "main": "hidenc.js",
   "keywords": [
@@ -11,6 +11,13 @@
   "dependencies": {
     "file-encryptor": "^0.1.0",
     "underscore": "^1.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nikosk93/hidenc"
+  },
+  "bin": {
+    "hidenc": "./hidenc.js"
   },
   "preferGlobal": true
 }

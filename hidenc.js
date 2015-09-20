@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var encryptor = require('file-encryptor');
 var args = process.argv.slice(2);
 
