@@ -1,4 +1,4 @@
-# peerflix
+# hidenc
 
 A cli tool to encrypt/decrypt files
 
