@@ -1,4 +1,5 @@
 var encryptor = require('file-encryptor');
+var _ = require('underscore');
 var operation = function(func, input, output, key) {
     encryptor[func](input, output, key, {algorithm: 'aes256'}, function(err) {
         if (err)
@@ -17,9 +18,9 @@ module.exports = function(args) {
     var file = args[1];
     var key = args[2];
 
-    if (mode === '--encrypt') {
+    if (_.contains(['--encrypt', '--e'], mode)) {
         operation('encryptFile', file, file + '.enc', key);
-    } else if (mode === '--decrypt') {
+    } else if (_.contains(['--decrypt', '--d'], mode)) {
         operation('decryptFile', file + '.enc', file, key);
     }
 }
