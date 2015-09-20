@@ -17,5 +17,5 @@ hidenc --encrypt example.pdf SOME_RANDOM_KEY
 ... and decrypt, any file.
 
 ```
-hidenc --decrypt example.pdf.enc SOME_RANDOM_KEY
+hidenc --decrypt example.pdf SOME_RANDOM_KEY
 ```

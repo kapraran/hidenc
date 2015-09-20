@@ -1,6 +1,6 @@
 {
   "name": "hidenc",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "a cli tool to encrypt/decrypt files",
   "main": "hidenc.js",
   "keywords": [
