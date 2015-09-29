@@ -5,7 +5,7 @@ var encrypt = require('./encrypt');
 var decrypt = require('./decrypt');
 
 program
-    .version('0.0.2')
+    .version('0.2.0')
     .arguments('<file> <key>')
     .option('-e, --encrypt', 'Encrypt a file')
     .option('-d, --decrypt', 'Decrypt a file')

@@ -19,3 +19,5 @@ hidenc --encrypt example.pdf SOME_RANDOM_KEY
 ```
 hidenc --decrypt example.pdf SOME_RANDOM_KEY
 ```
+
+# TODO
