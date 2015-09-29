@@ -9,7 +9,8 @@
     "decrypt"
   ],
   "dependencies": {
-    "file-encryptor": "^0.1.0",
+    "commander": "^2.8.1",
+    "file-encryptor": "hisankaran/file-encryptor",
     "underscore": "^1.8.3"
   },
   "repository": {

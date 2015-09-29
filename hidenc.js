@@ -1,19 +1,19 @@
 #!/usr/bin/env node
 
-var encryptor = require('file-encryptor');
-var _ = require('underscore');
-var args = process.argv.slice(2);
+var program = require('commander');
+var encrypt = require('./encrypt');
+var decrypt = require('./decrypt');
 
-if (args.length < 1)
-    return console.log('[ERROR] Required args missing');
+program
+    .version('0.0.2')
+    .arguments('<file> <key>')
+    .option('-e, --encrypt', 'Encrypt a file')
+    .option('-d, --decrypt', 'Decrypt a file')
+    .action(function(file, key) {
+        if (this.encrypt)
+            return encrypt.call(this, file, key);
 
-var mode = args[0];
-var valid_modes = ['--encrypt', '--e', '--decrypt', '--d'];
-
-if (mode === '--encfile') {
-    require('./encfile-controller')();
-} else if (_.contains(valid_modes, mode))  {
-    require('./inline-controller')(args);
-} else {
-    return console.log('[ERROR] Invalid mode');
-}
+        if (this.decrypt)
+            return decrypt.call(this, file, key);
+    })
+    .parse(process.argv);
