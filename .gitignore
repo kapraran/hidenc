@@ -1,2 +1,3 @@
 node_modules/
-encfile.js
+examples/
+yarn.lock

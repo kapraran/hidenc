@@ -1,18 +1,17 @@
 {
   "name": "hidenc",
-  "version": "0.2.0",
-  "description": "a cli tool to encrypt/decrypt files",
+  "version": "0.5.0",
+  "description": "A cli tool to easily encrypt and decrypt files",
+  "author": {
+    "name": "Nikos Kapraras",
+    "email": "iamnikosk93@gmail.com"
+  },
   "main": "hidenc.js",
   "keywords": [
     "cli",
     "encrypt",
     "decrypt"
   ],
-  "dependencies": {
-    "commander": "^2.8.1",
-    "file-encryptor": "hisankaran/file-encryptor",
-    "underscore": "^1.8.3"
-  },
   "repository": {
     "type": "git",
     "url": "git://github.com/nikosk93/hidenc"
@@ -20,5 +19,8 @@
   "bin": {
     "hidenc": "./hidenc.js"
   },
-  "preferGlobal": true
+  "preferGlobal": true,
+  "dependencies": {
+    "commander": "^2.19.0"
+  }
 }
