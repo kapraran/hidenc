@@ -6,6 +6,7 @@
     "name": "Nikos Kapraras",
     "email": "iamnikosk93@gmail.com"
   },
+  "license": "MIT",
   "main": "hidenc.js",
   "keywords": [
     "cli",
