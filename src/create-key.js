@@ -1,5 +1,8 @@
 const crypto = require('crypto')
 
+/**
+ * 
+ */
 const sha256 = function() {
     const data = Array.from(arguments)
     const hasher = crypto.createHash('sha256')
@@ -8,18 +11,30 @@ const sha256 = function() {
     return hasher.digest()
 }
 
-const createKey = function(password, len) {
-    const hashLen = 32
-    const loops = Math.ceil(len / hashLen) - 1
-    let buffer = sha256(password, len)
-
-    if (loops < 1)
-        return buffer.slice(0, len)
+/**
+ * 
+ * @param {string} password 
+ * @param {number} keyLen 
+ * @param {number} loops 
+ */
+const createBasicSalt = function(password, keyLen, loops=8) {
+    let salt = sha256(password, keyLen, password.length*loops)
 
     for (let i=0; i<loops; i++)
-        buffer = Buffer.concat([buffer, sha256(buffer, i, password)])
+        salt = Buffer.concat([salt, sha256(salt, i, password)])
 
-    return Buffer.concat([sha256(buffer, password), buffer.slice(hashLen, len)])
+    return salt
+}
+
+/**
+ * 
+ * @param {string} password 
+ * @param {number} keyLen 
+ * @param {string|Buffer|TypedArray|DataView} salt 
+ */
+const createKey = function(password, keyLen, salt=null) {
+    salt = salt === null ? createBasicSalt(password, keyLen): salt
+    return crypto.scryptSync(password, salt, keyLen)
 }
 
 module.exports = createKey

@@ -13,13 +13,11 @@ note: this version is not compatible with version <=0.2.0
 hidenc can be used to encrypt...
 
 ```
-hidenc --encrypt example.pdf SOME_RANDOM_KEY
+hidenc e example.pdf pass123
 ```
 
 ... and decrypt, any file.
 
 ```
-hidenc --decrypt example.pdf SOME_RANDOM_KEY
+hidenc d example.pdf pass123
 ```
-
-# TODO

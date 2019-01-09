@@ -7,7 +7,7 @@
     "email": "iamnikosk93@gmail.com"
   },
   "license": "MIT",
-  "main": "hidenc.js",
+  "main": "./src/index.js",
   "keywords": [
     "cli",
     "encrypt",
@@ -18,10 +18,13 @@
     "url": "git://github.com/nikosk93/hidenc"
   },
   "bin": {
-    "hidenc": "./hidenc.js"
+    "hidenc": "./src/cli/app.js"
   },
   "preferGlobal": true,
   "dependencies": {
-    "commander": "^2.19.0"
+    "commander": "2.19.0"
+  },
+  "scripts": {
+    "test": "node test/test"
   }
 }

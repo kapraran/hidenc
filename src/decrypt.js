@@ -2,7 +2,11 @@ const crypto = require('crypto')
 const fs = require('fs')
 const zlib = require('zlib')
 
-const ivReader = function(file) {
+/**
+ * 
+ * @param {string|Buffer|URL} file 
+ */
+const readIv = function(file) {
     return new Promise((resolve, reject) => {
         const ivInput = fs.createReadStream(file, {end: 15})
         const data = []
@@ -12,14 +16,27 @@ const ivReader = function(file) {
     })
 }
 
-const decrypt = function(file, key, algorithm='aes-192-cbc') {
+/**
+ * 
+ * @param {string|Buffer|URL} file 
+ * @param {Buffer} key 
+ * @param {object} options 
+ */
+const decrypt = function(file, key, options={}) {
+    // merge options with the defaults
+    options = Object.assign({
+        algorithm: 'aes-192-cbc',
+        iv: null,
+        extension: '.dec'
+    }, options)
+
     // init file streams
     const input = fs.createReadStream(file, {start: 16})
-    const output = fs.createWriteStream(file + '.orig')
+    const output = fs.createWriteStream(file + options.extension)
 
-    ivReader(file).then(iv => {
+    readIv(file).then(iv => {
         // init transformers
-        const decipher = crypto.createDecipheriv(algorithm, key, iv)
+        const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
         const unzip = zlib.createUnzip()
 
         input
