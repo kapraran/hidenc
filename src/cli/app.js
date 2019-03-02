@@ -4,6 +4,7 @@ const app = require('commander')
 const encrypt = require('../encrypt')
 const decrypt = require('../decrypt')
 const createKey = require('../create-key')
+const iutils = require('./input-utils')
 const pkg = require('../../package.json')
 
 app
@@ -19,9 +20,10 @@ app
     .option('-x, --ext <ext>', 'Set the extension of the encrypted file', '.enc')
     .action((file, password, options) => {
         const key = createKey(password, 24)
+        const ext = iutils.validateExtension(options.ext)
 
         encrypt(file, key, {
-            extension: options.ext
+            extension: ext
         })
     })
 
@@ -32,9 +34,10 @@ app
     .option('-x, --ext <ext>', 'Set the extension of the decrypted file', '.dec')
     .action((file, password, options) => {
         const key = createKey(password, 24)
+        const ext = iutils.validateExtension(options.ext)
 
         decrypt(file, key, {
-            extension: options.ext
+            extension: ext
         })
     })
 
