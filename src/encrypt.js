@@ -16,8 +16,25 @@ const injectIv = function(fstream, iv) {
     })
 }
 
-const encryptFileStream = function(input, output, cipher) {
+/**
+ * 
+ * @param {fs.ReadStream} input 
+ * @param {fs.WriteStream} output 
+ * @param {crypto.Cipher} cipher 
+ */
+const encryptStream = function(input, output, cipher) {
+    return new Promise((resolve, reject) => {
+        const gzip = zlib.createGzip()
 
+        // encrypt stream
+        const encryption = input
+            .pipe(gzip)
+            .pipe(cipher)
+            .pipe(output)
+
+        encryption.on('finish', resolve)
+        encryption.on('error', reject)
+    })
 }
 
 /**
@@ -37,23 +54,15 @@ const encrypt = function(file, key, options={}) {
     // set initialization vector
     const iv = options.iv === null ? crypto.randomBytes(16): options.iv
 
-    // init file streams
+    // init file streams and cipher
     const input = fs.createReadStream(file)
     const output = fs.createWriteStream(file + options.extension)
-
-    // init transformers
     const cipher = crypto.createCipheriv(options.algorithm, key, iv)
-    const gzip = zlib.createGzip()
 
     // inject iv
     return injectIv(output, iv)
-        .then(() => {
-            // encrypt file
-            input
-                .pipe(gzip)
-                .pipe(cipher)
-                .pipe(output)
-        })
+        .then(() => encryptStream(input, output, cipher))
+        .then(() => {})
 }
 
 module.exports = encrypt

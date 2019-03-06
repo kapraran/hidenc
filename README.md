@@ -21,3 +21,8 @@ hidenc e example.pdf pass123
 ```
 hidenc d example.pdf pass123
 ```
+
+License
+=======
+
+hidenc is distributed under the MIT license.

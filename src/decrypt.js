@@ -18,6 +18,27 @@ const readIv = function(file) {
 
 /**
  * 
+ * @param {fs.ReadStream} input 
+ * @param {fs.WriteStream} output 
+ * @param {crypto.Decipher} decipher 
+ */
+const decryptStream = function(input, output, decipher) {
+    return new Promise((resolve, reject) => {
+        // init transformers
+        const unzip = zlib.createUnzip()
+
+        const decryption = input
+            .pipe(decipher)
+            .pipe(unzip)
+            .pipe(output)
+
+        decryption.on('finished', resolve)
+        decryption.on('error', reject)
+    })
+}
+
+/**
+ * 
  * @param {string|Buffer|URL} file 
  * @param {Buffer} key 
  * @param {object} options 
@@ -34,15 +55,22 @@ const decrypt = function(file, key, options={}) {
     const input = fs.createReadStream(file, {start: 16})
     const output = fs.createWriteStream(file + options.extension)
 
-    readIv(file).then(iv => {
-        // init transformers
-        const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
-        const unzip = zlib.createUnzip()
+    // readIv(file).then(iv => {
+    //     // init transformers
+    //     const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
+    //     const unzip = zlib.createUnzip()
 
-        input
-            .pipe(decipher)
-            .pipe(unzip)
-            .pipe(output)
+    //     input
+    //         .pipe(decipher)
+    //         .pipe(unzip)
+    //         .pipe(output)
+    // })
+
+    return readIv(file).then(iv => {
+        // init decipher
+        const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
+
+        return decryptStream(input, output, decipher)
     })
 }
 
