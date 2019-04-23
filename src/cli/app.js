@@ -1,13 +1,10 @@
 #!/usr/bin/env node
 
 const app = require('commander')
-const encrypt = require('../encrypt')
-const decrypt = require('../decrypt')
-const remove = require('../remove')
-const createKey = require('../create-key')
-const iutils = require('./input-utils')
 const pkg = require('../../package.json')
 
+const EncryptAction = require('./actions/encryptAction')
+const DecryptAction = require('./actions/decryptAction')
 const RemoveAction = require('./actions/removeAction')
 
 app
@@ -24,28 +21,14 @@ app
     .alias('e')
     .description('Encrypt the file using the specified password')
     .option('-x, --ext <ext>', 'Set the extension of the encrypted file', '.enc')
-    .action((file, password, options) => {
-        const key = createKey(password, 24)
-        const ext = iutils.validateExtension(options.ext)
-
-        encrypt(file, key, {
-            extension: ext
-        })
-    })
+    .action((file, password, options) => new EncryptAction().run(file, password, options))
 
 app
     .command('decrypt <file> <password>')
     .alias('d')
     .description('Decrypt the file using the specified password')
     .option('-x, --ext <ext>', 'Set the extension of the decrypted file', '.dec')
-    .action((file, password, options) => {
-        const key = createKey(password, 24)
-        const ext = iutils.validateExtension(options.ext)
-
-        decrypt(file, key, {
-            extension: ext
-        })
-    })
+    .action((file, password, options) => new DecryptAction().run(file, password, options))
 
 app
     .command('remove <file>')

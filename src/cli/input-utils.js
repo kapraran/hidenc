@@ -16,6 +16,19 @@ const validateFile = function(filepath) {
 
 /**
  *
+ * @param {string} password
+ */
+const validatePassword = function(password) {
+    password = password.trim()
+
+    if (password.length < 1)
+        throw Error(`Invalid 'password' value. The password cannot be empty.`)
+
+    return password
+}
+
+/**
+ *
  * @param {number|string} n
  */
 const validatePasses = function(n) {
@@ -61,6 +74,7 @@ const validateExtension = function(ext) {
 
 module.exports = {
     validateFile,
+    validatePassword,
     validatePasses,
     validateExtension,
     mkdirp
