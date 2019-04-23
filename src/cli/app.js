@@ -8,6 +8,8 @@ const createKey = require('../create-key')
 const iutils = require('./input-utils')
 const pkg = require('../../package.json')
 
+const RemoveAction = require('./actions/removeAction')
+
 app
     .name(pkg.name)
     .version(pkg.version)
@@ -50,8 +52,6 @@ app
     .alias('r')
     .description('Delete a file with an extra layer of safety')
     .option('-p, --passes <passes>', 'The number of sanitization passes', 3)
-    .action((file, options) => {
-        remove(file, options.passes)
-    })
+    .action((file, options) => new RemoveAction().run(file, options))
 
 app.parse(process.argv)
