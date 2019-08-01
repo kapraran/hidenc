@@ -4,3 +4,4 @@ assets/
 .vscode/
 
 yarn.lock
+*.log
