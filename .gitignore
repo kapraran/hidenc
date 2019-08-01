@@ -1,5 +1,6 @@
 node_modules/
 examples/
 assets/
-test/
+.vscode/
+
 yarn.lock

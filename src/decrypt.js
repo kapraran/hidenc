@@ -3,75 +3,78 @@ const fs = require('fs')
 const zlib = require('zlib')
 
 /**
- * 
- * @param {string|Buffer|URL} file 
+ *
+ * @param {string|Buffer|URL} file
  */
 const readIv = function(file) {
-    return new Promise((resolve, reject) => {
-        const ivInput = fs.createReadStream(file, {end: 15})
-        const data = []
+  return new Promise((resolve, reject) => {
+    const ivInput = fs.createReadStream(file, { end: 15 })
+    const data = []
 
-        ivInput.on('data', chunk => data.push(chunk))
-        ivInput.on('end', () => resolve(Buffer.concat(data)))
-    })
+    ivInput.on('data', (chunk) => data.push(chunk))
+    ivInput.on('end', () => resolve(Buffer.concat(data)))
+  })
 }
 
 /**
- * 
- * @param {fs.ReadStream} input 
- * @param {fs.WriteStream} output 
- * @param {crypto.Decipher} decipher 
+ *
+ * @param {fs.ReadStream} input
+ * @param {fs.WriteStream} output
+ * @param {crypto.Decipher} decipher
  */
 const decryptStream = function(input, output, decipher) {
-    return new Promise((resolve, reject) => {
-        // init transformers
-        const unzip = zlib.createUnzip()
+  return new Promise((resolve, reject) => {
+    // init transformers
+    const unzip = zlib.createUnzip()
 
-        const decryption = input
-            .pipe(decipher)
-            .pipe(unzip)
-            .pipe(output)
+    const decryption = input
+      .pipe(decipher)
+      .pipe(unzip)
+      .pipe(output)
 
-        decryption.on('finished', resolve)
-        decryption.on('error', reject)
-    })
+    decryption.on('finished', resolve)
+    decryption.on('error', reject)
+  })
 }
 
 /**
- * 
- * @param {string|Buffer|URL} file 
- * @param {Buffer} key 
- * @param {object} options 
+ *
+ * @param {string|Buffer|URL} file
+ * @param {Buffer} key
+ * @param {object} options
  */
-const decrypt = function(file, key, options={}) {
-    // merge options with the defaults
-    options = Object.assign({
-        algorithm: 'aes-192-cbc',
-        iv: null,
-        extension: '.dec'
-    }, options)
+const decrypt = function(file, key, options = {}) {
+  // merge options with the defaults
+  options = Object.assign(
+    {
+      algorithm: 'aes-192-cbc',
+      iv: null,
+      extension: '.dec',
+    },
+    options
+  )
 
-    // init file streams
-    const input = fs.createReadStream(file, {start: 16})
-    const output = fs.createWriteStream(file + options.extension)
+  // init file streams
+  const input = fs.createReadStream(file, { start: 16 })
+  const output = fs.createWriteStream(file + options.extension)
 
-    // readIv(file).then(iv => {
-    //     // init transformers
-    //     const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
-    //     const unzip = zlib.createUnzip()
+  // readIv(file).then(iv => {
+  //     // init transformers
+  //     const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
+  //     const unzip = zlib.createUnzip()
 
-    //     input
-    //         .pipe(decipher)
-    //         .pipe(unzip)
-    //         .pipe(output)
-    // })
+  //     input
+  //         .pipe(decipher)
+  //         .pipe(unzip)
+  //         .pipe(output)
+  // })
 
-    return readIv(file).then(iv => {
-        // init decipher
-        const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
+  return readIv(file).then((iv) => {
+    // init decipher
+    const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
 
-        return decryptStream(input, output, decipher)
-    })
+    return decryptStream(input, output, decipher)
+  })
 }
 
 module.exports = decrypt

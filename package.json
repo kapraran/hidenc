@@ -25,6 +25,11 @@
     "commander": "2.19.0"
   },
   "scripts": {
-    "test": "node test/test"
+    "test": "mocha",
+    "prettier": "prettier --write src/**/*.{js,ts,vue} test/**/*.{js,ts,vue}"
+  },
+  "devDependencies": {
+    "mocha": "^6.2.0",
+    "prettier": "^1.18.2"
   }
 }
