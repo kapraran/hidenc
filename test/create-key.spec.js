@@ -1,26 +1,35 @@
 const { createKey } = require('../src/create-key')
-const assert = require('assert')
+const { expect } = require('chai')
 
-const someRandomPassword = 'PHxkhHv25QDyP2EC'
+const randomPasswords = {
+  weak: 'Mt2JDY',
+  strong: 'XU73f^mZ6ksJ.-hB',
+  unbelievable:
+    'WmfABtMeDY86Sf8VW7tjzgH78RBBs6qck83h2SgbNw7SDy9J4aKTPUXAs8CxLLkbHFfYbSvgHSQpjeNNHneLfZ9WVueTYtLMkx7dLBWpndwdE7zNT8Rmj8WRkV4ntfNXLJh9mjLJkYuSzPhvekgvYgtTnrWxxyStnDCVmYHJdRFr7hef3PWSUtzbadS7y3SVGPkheUCp6nfUdjwyaYSsueMUfRHsfVXxqUjeS2X8X6Ktw3A8xFKc6FKpgD3TU6CG',
+}
 
-describe('Create key length test', function() {
-  it('should create a key of length 0', function() {
-    const key = createKey(someRandomPassword, 0)
-    assert.equal(key.length, 0)
+const keyLens = [0, 2, 4, 8, 16, 256, 1024]
+
+describe('Test key length of createKey function for `weak` password', () => {
+  keyLens.forEach((keyLen) => {
+    it(`should create a key of length ${keyLen}`, () => {
+      expect(createKey(randomPasswords.weak, keyLen).length).to.equal(keyLen)
+    })
   })
+})
 
-  it('should create a key of length 4', function() {
-    const key = createKey(someRandomPassword, 4)
-    assert.equal(key.length, 4)
+describe('Test key length of createKey function for `strong` password', () => {
+  keyLens.forEach((keyLen) => {
+    it(`should create a key of length ${keyLen}`, () => {
+      expect(createKey(randomPasswords.weak, keyLen).length).to.equal(keyLen)
+    })
   })
+})
 
-  it('should create a key of length 12', function() {
-    const key = createKey(someRandomPassword, 12)
-    assert.equal(key.length, 12)
-  })
-
-  it('should create a key of length 2000', function() {
-    const key = createKey(someRandomPassword, 2000)
-    assert.equal(key.length, 2000)
+describe('Test key length of createKey function for `unbelievable` password', () => {
+  keyLens.forEach((keyLen) => {
+    it(`should create a key of length ${keyLen}`, () => {
+      expect(createKey(randomPasswords.weak, keyLen).length).to.equal(keyLen)
+    })
   })
 })
