@@ -1,2 +1,7 @@
 node_modules/
+test/
+assets/
+examples/
+
 encfile.js
+yarn.lock
