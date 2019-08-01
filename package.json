@@ -2,6 +2,10 @@
   "name": "hidenc",
   "version": "0.2.1",
   "description": "A cli tool to easily encrypt and decrypt files",
+  "author": {
+    "name": "Nikos Kapraras",
+    "email": "iamnikosk93@gmail.com"
+  },
   "main": "./src/hidenc.js",
   "keywords": [
     "cli",

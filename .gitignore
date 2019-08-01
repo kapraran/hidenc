@@ -2,6 +2,7 @@ node_modules/
 test/
 assets/
 examples/
+.vscode/
 
 encfile.js
 yarn.lock
