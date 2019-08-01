@@ -4,6 +4,40 @@ const util = require('util')
 
 const fsMkdir = util.promisify(fs.mkdir)
 const fsExists = util.promisify(fs.exists)
+const fsAccess = util.promisify(fs.access)
+
+/**
+ *
+ * @param {string} filepath
+ */
+const validateFile = function(filepath) {
+  return fsAccess(filepath, fs.F_OK).then(() => filepath)
+}
+
+/**
+ *
+ * @param {string} password
+ */
+const validatePassword = function(password) {
+  password = password.trim()
+
+  if (password.length < 1) throw Error(`Invalid 'password' value. The password cannot be empty.`)
+
+  return password
+}
+
+/**
+ *
+ * @param {number|string} n
+ */
+const validatePasses = function(n) {
+  n = parseInt(n)
+
+  // check if invalid
+  if (isNaN(n) || n < 1) throw Error(`Invalid 'passes' value. A positive integer is required.`)
+
+  return n
+}
 
 /**
  *
@@ -37,6 +71,9 @@ const validateExtension = function(ext) {
 }
 
 module.exports = {
+  validateFile,
+  validatePassword,
+  validatePasses,
   validateExtension,
   mkdirp,
 }
