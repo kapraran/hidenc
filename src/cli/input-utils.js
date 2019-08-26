@@ -21,7 +21,8 @@ const validateFile = function(filepath) {
 const validatePassword = function(password) {
   password = password.trim()
 
-  if (password.length < 1) throw Error(`Invalid 'password' value. The password cannot be empty.`)
+  if (password.length < 1)
+    throw Error(`Invalid 'password' value. The password cannot be empty.`)
 
   return password
 }
@@ -34,7 +35,8 @@ const validatePasses = function(n) {
   n = parseInt(n)
 
   // check if invalid
-  if (isNaN(n) || n < 1) throw Error(`Invalid 'passes' value. A positive integer is required.`)
+  if (isNaN(n) || n < 1)
+    throw Error(`Invalid 'passes' value. A positive integer is required.`)
 
   return n
 }

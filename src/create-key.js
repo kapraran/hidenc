@@ -3,7 +3,7 @@ const crypto = require('crypto')
 /**
  *
  */
-const sha256 = function() {
+function sha256() {
   const data = Array.from(arguments)
   const hasher = crypto.createHash('sha256')
 
@@ -13,29 +13,29 @@ const sha256 = function() {
 
 /**
  *
- * @param {string} password
- * @param {number} keyLen
- * @param {number} loops
+ * @param {array} entropy
  */
-const createBasicSalt = function(password, keyLen, loops = 8) {
-  let salt = sha256(password, keyLen, password.length * loops)
+function createBasicSalt(entropy) {
+  const hasher = crypto.createHash('sha256')
+  const loops = entropy.length * 8
 
-  for (let i = 0; i < loops; i++) salt = Buffer.concat([salt, sha256(salt, i, password)])
+  for (let i = 0; i < loops; i++)
+    hasher.update(sha256(i, entropy[i % entropy.length]))
 
-  return salt
+  return hasher.digest()
 }
 
 /**
  *
  * @param {string|Buffer|URL} filepath
  */
-const createPasswordFromFile = function(filepath) {
+function createPasswordFromFile(filepath) {
   return new Promise((resolve, reject) => {
     const hasher = crypto.createHash('sha256')
     const fstream = fs.createReadStream(filepath)
 
     fstream.on('data', (d) => hasher.update(d))
-    fstream.on('end', () => resolve(shasum.digest('hex')))
+    fstream.on('end', () => resolve(hasher.digest('hex')))
   })
 }
 
@@ -45,8 +45,8 @@ const createPasswordFromFile = function(filepath) {
  * @param {number} keyLen
  * @param {string|Buffer|TypedArray|DataView} salt
  */
-const createKey = function(password, keyLen, salt = null) {
-  salt = salt === null ? createBasicSalt(password, keyLen) : salt
+function createKey(password, keyLen, salt = null) {
+  salt = salt === null ? createBasicSalt([password, keyLen]) : salt
   return crypto.scryptSync(password, salt, keyLen)
 }
 
@@ -56,9 +56,9 @@ const createKey = function(password, keyLen, salt = null) {
  * @param {number} keyLen
  * @param {string|Buffer|TypedArray|DataView} salt
  */
-const createKeyFromFile = function(filepath, keyLen, salt = null) {
-  const password = 'abcdefg'
+function async createKeyFromFile(filepath, keyLen, salt = null) {
+  const password = await createPasswordFromFile(filepath)
   return createKey(password, keyLen, salt)
 }
 
-module.exports = { createKey, createPasswordFromFile }
+module.exports = { createKey, createKeyFromFile }

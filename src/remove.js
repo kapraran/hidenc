@@ -8,6 +8,7 @@ const fsUnlink = util.promisify(fs.unlink)
 const cryptoRandomBytes = util.promisify(crypto.randomBytes)
 
 /**
+ * Creates a fixed length stream of random bytes
  *
  * @param {int} streamSize
  */
@@ -31,6 +32,7 @@ const createRandomBytesStream = function(streamSize) {
 }
 
 /**
+ * Overwrites a files with the same amount of random bytes
  *
  * @param {*} file
  * @param {int} size
@@ -46,6 +48,7 @@ const overwriteFile = function(file, size) {
 }
 
 /**
+ * Safely removes a file from the filesystem, overwriting it first using random bytes
  *
  * @param {string} file
  * @param {int} passes
@@ -61,10 +64,6 @@ const remove = function(file, passes) {
       return promise
     })
     .then(() => fsUnlink(file))
-    .then(() => {
-      console.log('OK')
-    })
-    .catch(console.error)
 }
 
 module.exports = remove
