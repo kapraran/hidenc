@@ -7,7 +7,7 @@ const zlib = require('zlib')
  * @param {fs.WriteStream} fstream
  * @param {Buffer} iv
  */
-const injectIv = function(fstream, iv) {
+function injectIv(fstream, iv) {
   return new Promise((resolve, reject) => {
     fstream.write(iv, (err) => {
       if (err) return reject(err)
@@ -22,7 +22,7 @@ const injectIv = function(fstream, iv) {
  * @param {fs.WriteStream} output
  * @param {crypto.Cipher} cipher
  */
-const encryptStream = function(input, output, cipher) {
+function encryptStream(input, output, cipher) {
   return new Promise((resolve, reject) => {
     const gzip = zlib.createGzip()
 
@@ -43,7 +43,7 @@ const encryptStream = function(input, output, cipher) {
  * @param {Buffer} key
  * @param {object} options
  */
-const encrypt = function(file, key, options = {}) {
+function encrypt(file, key, options = {}) {
   // merge options with the defaults
   options = Object.assign(
     {

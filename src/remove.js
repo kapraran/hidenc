@@ -12,7 +12,7 @@ const cryptoRandomBytes = util.promisify(crypto.randomBytes)
  *
  * @param {int} streamSize
  */
-const createRandomBytesStream = function(streamSize) {
+function createRandomBytesStream(streamSize) {
   let producedBytes = 0
 
   return new stream.Readable({
@@ -23,7 +23,6 @@ const createRandomBytesStream = function(streamSize) {
       cryptoRandomBytes(readSize)
         .then((buffer) => {
           this.push(buffer)
-
           if (producedBytes >= streamSize) this.push(null)
         })
         .catch((err) => this.emmit('error', err))
@@ -37,13 +36,14 @@ const createRandomBytesStream = function(streamSize) {
  * @param {*} file
  * @param {int} size
  */
-const overwriteFile = function(file, size) {
+function overwriteFile(file, size) {
   return new Promise((resolve, reject) => {
     const randStream = createRandomBytesStream(size)
-    const output = fs.createWriteStream(file)
+    const output = fs.createWriteStream(file, { flags: 'w' })
 
     randStream.pipe(output)
-    output.end(() => resolve())
+    output.on('error', reject)
+    output.on('finish', resolve)
   })
 }
 
@@ -53,7 +53,7 @@ const overwriteFile = function(file, size) {
  * @param {string} file
  * @param {int} passes
  */
-const remove = function(file, passes) {
+function remove(file, passes) {
   fsStat(file)
     .then((stats) => {
       const size = stats.size

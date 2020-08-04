@@ -1,6 +1,6 @@
 {
   "name": "hidenc",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "A cli tool to easily encrypt and decrypt files",
   "author": {
     "name": "Nikos Kapraras",
@@ -26,7 +26,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "prettier": "prettier --write src/**/*.{js,ts,vue} test/**/*.{js,ts,vue}"
+    "prettier": "prettier --write src/**/*.{js,ts} test/**/*.{js,ts}"
   },
   "devDependencies": {
     "chai": "^4.2.0",
