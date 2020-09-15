@@ -1,9 +1,21 @@
-# hidenc
+<h1 align="center">
+  <br>
+  <img src="./assets/hidenc-logo.png" alt="hidenc" width="128">
+  <br>
+  hidenc
+  <br>
+</h1>
 
-![npm](https://img.shields.io/npm/dm/hidenc)
-![David](https://img.shields.io/david/nikosk93/hidenc)
+<h4 align="center">A node.js cli tool to easily encrypt and decrypt files</h4>
 
-A cli tool to easily encrypt and decrypt files
+<p align="center">
+  <a href="https://img.shields.io/npm/dm/hidenc"><img src="https://img.shields.io/npm/dm/hidenc" alt="npm"></a>
+  <a href="https://img.shields.io/david/nikosk93/hidenc">
+    <img src="https://img.shields.io/david/nikosk93/hidenc" alt="dependencies">
+  </a>
+</p>
+
+## Installation
 
 ```
 npm install -g hidenc
@@ -24,3 +36,9 @@ Decrypt a file using the following command:
 ```
 hidenc d example.pdf <password>
 ```
+
+## License <a name="license"></a>
+
+[MIT License](https://github.com/kapraran/hidenc/blob/master/LICENSE)
+
+Copyright (c) 2019 [Nikos Kapraras](https://kapraran.dev)

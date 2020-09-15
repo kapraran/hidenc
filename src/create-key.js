@@ -14,7 +14,7 @@ function sha256() {
 /**
  * Generates a basic salt to be used when no salt
  * was explicitly given
- * 
+ *
  * @param {array} entropy
  */
 function createBasicSalt(entropy) {
