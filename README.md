@@ -37,6 +37,10 @@ Decrypt a file using the following command:
 hidenc d example.pdf <password>
 ```
 
+## Credits <a name="credits"></a>
+
+[Logo icon](https://www.flaticon.com/free-icon/encryption_3076279?term=encrypt&page=1&position=3)
+
 ## License <a name="license"></a>
 
 [MIT License](https://github.com/kapraran/hidenc/blob/master/LICENSE)
