@@ -18,6 +18,10 @@
   </a>
 </p>
 
+## About
+
+*hidenc* is a simple cli tool can be used to encrypt and decrypt any file using a password.
+
 ## Installation
 
 ```
@@ -26,18 +30,24 @@ npm install -g hidenc
 
 ## Usage
 
-hidenc can be used to encrypt and decrypt any file using a password.
+
 
 Encrypt a file using the following command:
 
 ```
-hidenc e example.pdf <password>
+hidenc e <file> <password>
 ```
 
 Decrypt a file using the following command:
 
 ```
-hidenc d example.pdf <password>
+hidenc d <file> <password>
+```
+
+Delete a file safely using the following command:
+
+```
+hidenc r <file>
 ```
 
 ## Credits <a name="credits"></a>
