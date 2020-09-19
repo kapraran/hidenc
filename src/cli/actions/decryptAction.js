@@ -15,14 +15,10 @@ class DecryptAction extends Action {
   action([file, password, ext]) {
     const key = createKey(password, 32)
 
-    console.log(`[info] Decrypting file: ${file}`)
+    this.spinner.text = `Decrypting file "${file}"`
     return decrypt(file, key, {
       extension: ext,
     })
-  }
-
-  onError(err) {
-    console.error(`Decryption failed. Try another password...`)
   }
 }
 

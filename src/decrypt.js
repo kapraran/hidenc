@@ -65,7 +65,7 @@ function decryptStream(input, output, decipher, compressed = false) {
       return stream.pipe(step)
     }, input)
 
-    decryption.on('finished', resolve)
+    decryption.on('finish', resolve)
   })
 }
 

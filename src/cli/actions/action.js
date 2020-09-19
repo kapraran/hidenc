@@ -1,12 +1,19 @@
+const ora = require('ora')
+
 class Action {
+  constructor() {
+    this.spinner = ora('Initializing...').start()
+    this.spinner.interval = 250
+  }
+
   run() {
     const runArgs = arguments
 
     Promise.resolve()
       .then(() => this.validateInput.apply(this, runArgs))
-      .then(this.action)
-      .then(this.onSuccess)
-      .catch(this.onError)
+      .then(this.action.bind(this))
+      .then(this.onSuccess.bind(this))
+      .catch(this.onError.bind(this))
   }
 
   validateInput() {
@@ -18,11 +25,11 @@ class Action {
   }
 
   onSuccess() {
-    console.log('OK')
+    this.spinner.succeed('Ok')
   }
 
   onError(err) {
-    console.error(err)
+    this.spinner.fail('Failed')
   }
 }
 
