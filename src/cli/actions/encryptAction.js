@@ -13,7 +13,7 @@ class EncryptAction extends Action {
   }
 
   action([file, password, ext]) {
-    const key = createKey(password, 24)
+    const key = createKey(password, 32)
 
     console.log(`[info] Encrypting file: ${file}`)
     return encrypt(file, key, {

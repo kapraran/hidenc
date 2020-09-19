@@ -23,7 +23,7 @@ function injectIv(fstream, iv) {
  * @param {crypto.Cipher} cipher
  * @param {boolean} compressed
  */
-function encryptStream(input, output, cipher, compressed = true) {
+function encryptStream(input, output, cipher, compressed = false) {
   return new Promise((resolve, reject) => {
     const gzip = zlib.createGzip()
     const transformSteps = [cipher, output]
@@ -47,7 +47,7 @@ function encrypt(file, key, options = {}) {
   // merge options with the defaults
   options = Object.assign(
     {
-      algorithm: 'aes-192-cbc',
+      algorithm: 'aes-256-ctr',
       iv: null,
       extension: '.enc',
     },
@@ -60,7 +60,7 @@ function encrypt(file, key, options = {}) {
   // init file streams and cipher
   const input = fs.createReadStream(file)
   const output = fs.createWriteStream(file + options.extension)
-  const cipher = crypto.createCipheriv(options.algorithm, key, iv)
+  const cipher = crypto.createCipheriv(options.algorithm, key, iv).setAutoPadding(true)
 
   // inject iv
   return injectIv(output, iv)

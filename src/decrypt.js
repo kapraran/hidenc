@@ -33,7 +33,7 @@ function readIv(file) {
  * @param {crypto.Decipher} decipher
  * @param {boolean} compressed
  */
-function decryptStream(input, output, decipher, compressed = true) {
+function decryptStream(input, output, decipher, compressed = false) {
   return new Promise((resolve, reject) => {
     // init transformers
     const unzip = zlib.createUnzip()
@@ -59,7 +59,7 @@ function decrypt(file, key, options = {}) {
   // merge options with the defaults
   options = Object.assign(
     {
-      algorithm: 'aes-192-cbc',
+      algorithm: 'aes-256-ctr',
       iv: null,
       extension: resolveExtension(file, '.dec'),
     },
@@ -72,7 +72,9 @@ function decrypt(file, key, options = {}) {
 
   return readIv(file).then((iv) => {
     // init decipher
-    const decipher = crypto.createDecipheriv(options.algorithm, key, iv)
+    const decipher = crypto
+      .createDecipheriv(options.algorithm, key, iv)
+      .setAutoPadding(true)
     return decryptStream(input, output, decipher)
   })
 }
