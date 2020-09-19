@@ -4,7 +4,7 @@
   "description": "A cli tool to easily encrypt and decrypt files",
   "author": {
     "name": "Nikos Kapraras",
-    "email": "iamnikosk93@gmail.com"
+    "email": "nikos@kapraran.dev"
   },
   "license": "MIT",
   "main": "./src/index.js",
@@ -15,14 +15,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/nikosk93/hidenc"
+    "url": "git://github.com/kapraran/hidenc"
   },
   "bin": {
     "hidenc": "./src/cli/app.js"
   },
   "preferGlobal": true,
   "dependencies": {
-    "commander": "2.19.0"
+    "commander": "^6.1.0"
   },
   "scripts": {
     "test": "mocha",

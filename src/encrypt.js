@@ -21,16 +21,16 @@ function injectIv(fstream, iv) {
  * @param {fs.ReadStream} input
  * @param {fs.WriteStream} output
  * @param {crypto.Cipher} cipher
+ * @param {boolean} compressed
  */
-function encryptStream(input, output, cipher) {
+function encryptStream(input, output, cipher, compressed = true) {
   return new Promise((resolve, reject) => {
     const gzip = zlib.createGzip()
+    const transformSteps = [cipher, output]
 
-    // encrypt stream
-    const encryption = input
-      .pipe(gzip)
-      .pipe(cipher)
-      .pipe(output)
+    if (compressed) transformSteps.unshift(gzip)
+
+    const encryption = transformSteps.reduce((stream, step) => stream.pipe(step), input)
 
     encryption.on('finish', resolve)
     encryption.on('error', reject)

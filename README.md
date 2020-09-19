@@ -9,9 +9,12 @@
 <h4 align="center">A node.js cli tool to easily encrypt and decrypt files</h4>
 
 <p align="center">
-  <a href="https://img.shields.io/npm/dm/hidenc"><img src="https://img.shields.io/npm/dm/hidenc" alt="npm"></a>
-  <a href="https://img.shields.io/david/nikosk93/hidenc">
-    <img src="https://img.shields.io/david/nikosk93/hidenc" alt="dependencies">
+  <a href="https://img.shields.io/npm/dm/hidenc"><img src="https://img.shields.io/npm/dm/hidenc?style=for-the-badge" alt="npm"></a>
+  <a href="https://img.shields.io/david/kapraran/hidenc">
+    <img src="https://img.shields.io/david/kapraran/hidenc?style=for-the-badge" alt="dependencies">
+  </a>
+  <a href="https://img.shields.io/github/repo-size/kapraran/hidenc?style=for-the-badge">
+    <img src="https://img.shields.io/github/repo-size/kapraran/hidenc?style=for-the-badge" alt="dependencies">
   </a>
 </p>
 

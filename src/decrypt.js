@@ -4,6 +4,16 @@ const zlib = require('zlib')
 
 /**
  *
+ * @param {string} filename
+ * @param {string} defExtension
+ */
+function resolveExtension(filename, defExtension) {
+  const results = filename.match(/^.+(\..*)\.enc$/)
+  return results !== null ? results[1] : defExtension
+}
+
+/**
+ *
  * @param {string|Buffer|URL} file
  */
 function readIv(file) {
@@ -21,16 +31,18 @@ function readIv(file) {
  * @param {fs.ReadStream} input
  * @param {fs.WriteStream} output
  * @param {crypto.Decipher} decipher
+ * @param {boolean} compressed
  */
-function decryptStream(input, output, decipher) {
+function decryptStream(input, output, decipher, compressed = true) {
   return new Promise((resolve, reject) => {
     // init transformers
     const unzip = zlib.createUnzip()
+    const transformSteps = [decipher, output]
 
-    const decryption = input
-      .pipe(decipher)
-      .pipe(unzip)
-      .pipe(output)
+    // add unzip if file is compressed
+    if (compressed) transformSteps.splice(1, 0, unzip)
+
+    const decryption = transformSteps.reduce((stream, step) => stream.pipe(step), input)
 
     decryption.on('finished', resolve)
     decryption.on('error', reject)
@@ -49,7 +61,7 @@ function decrypt(file, key, options = {}) {
     {
       algorithm: 'aes-192-cbc',
       iv: null,
-      extension: '.dec',
+      extension: resolveExtension(file, '.dec'),
     },
     options
   )
