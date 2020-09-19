@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const fs = require('fs')
+const { resolve } = require('path')
 const zlib = require('zlib')
 
 /**
@@ -18,6 +19,21 @@ function injectIv(fstream, iv) {
 
 /**
  *
+ * @param {string} filepath
+ * @param {Buffer} tag
+ */
+function appendTag(filepath, tag) {
+  return new Promise((resolve, reject) => {
+    const encrypted = fs.createWriteStream(filepath, { flags: 'a' })
+    encrypted.end(tag)
+
+    encrypted.on('finish', resolve)
+    encrypted.on('error', reject)
+  })
+}
+
+/**
+ *
  * @param {fs.ReadStream} input
  * @param {fs.WriteStream} output
  * @param {crypto.Cipher} cipher
@@ -30,10 +46,13 @@ function encryptStream(input, output, cipher, compressed = false) {
 
     if (compressed) transformSteps.unshift(gzip)
 
-    const encryption = transformSteps.reduce((stream, step) => stream.pipe(step), input)
+    const encryption = transformSteps.reduce((stream, step) => {
+      step.removeAllListeners()
+      step.on('error', reject)
+      return stream.pipe(step)
+    }, input)
 
-    encryption.on('finish', resolve)
-    encryption.on('error', reject)
+    encryption.on('finish', () => resolve(cipher.getAuthTag()))
   })
 }
 
@@ -47,7 +66,7 @@ function encrypt(file, key, options = {}) {
   // merge options with the defaults
   options = Object.assign(
     {
-      algorithm: 'aes-256-ctr',
+      algorithm: 'aes-256-gcm',
       iv: null,
       extension: '.enc',
     },
@@ -60,12 +79,12 @@ function encrypt(file, key, options = {}) {
   // init file streams and cipher
   const input = fs.createReadStream(file)
   const output = fs.createWriteStream(file + options.extension)
-  const cipher = crypto.createCipheriv(options.algorithm, key, iv).setAutoPadding(true)
+  const cipher = crypto.createCipheriv(options.algorithm, key, iv)
 
   // inject iv
   return injectIv(output, iv)
     .then(() => encryptStream(input, output, cipher))
-    .then(() => {})
+    .then((authTag) => appendTag(output.path, authTag))
 }
 
 module.exports = encrypt

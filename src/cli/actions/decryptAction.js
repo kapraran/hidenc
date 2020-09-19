@@ -20,6 +20,10 @@ class DecryptAction extends Action {
       extension: ext,
     })
   }
+
+  onError(err) {
+    console.error(`Decryption failed. Try another password...`)
+  }
 }
 
 module.exports = DecryptAction
