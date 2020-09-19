@@ -85,6 +85,7 @@ function encrypt(file, key, options = {}) {
   return injectIv(output, iv)
     .then(() => encryptStream(input, output, cipher))
     .then((authTag) => appendTag(output.path, authTag))
+    .then(() => file + options.extension)
 }
 
 module.exports = encrypt

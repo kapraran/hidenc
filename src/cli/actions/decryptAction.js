@@ -18,6 +18,8 @@ class DecryptAction extends Action {
     this.spinner.text = `Decrypting file "${file}"`
     return decrypt(file, key, {
       extension: ext,
+    }).then((outFilepath) => {
+      this.spinner.info(`Decrypted file created at "${outFilepath}"`)
     })
   }
 }

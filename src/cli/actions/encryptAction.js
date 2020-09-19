@@ -18,6 +18,8 @@ class EncryptAction extends Action {
     this.spinner.text = `Encrypting file: ${file}`
     return encrypt(file, key, {
       extension: ext,
+    }).then((outFilepath) => {
+      this.spinner.info(`Encrypted file created at "${outFilepath}"`)
     })
   }
 }

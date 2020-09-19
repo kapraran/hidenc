@@ -91,11 +91,13 @@ function decrypt(file, key, options = {}) {
   const input = fs.createReadStream(file, { start: 16, end: size - 17 })
   const output = fs.createWriteStream(file + options.extension)
 
-  return Promise.all([readIv(file), readTag(file, size)]).then(([iv, tag]) => {
-    // init decipher
-    const decipher = crypto.createDecipheriv(options.algorithm, key, iv).setAuthTag(tag)
-    return decryptStream(input, output, decipher)
-  })
+  return Promise.all([readIv(file), readTag(file, size)])
+    .then(([iv, tag]) => {
+      // init decipher
+      const decipher = crypto.createDecipheriv(options.algorithm, key, iv).setAuthTag(tag)
+      return decryptStream(input, output, decipher)
+    })
+    .then(() => file + options.extension)
 }
 
 module.exports = decrypt
