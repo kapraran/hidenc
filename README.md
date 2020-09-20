@@ -10,8 +10,8 @@
 
 <p align="center">
   <a href="https://img.shields.io/npm/dm/hidenc"><img src="https://img.shields.io/npm/dm/hidenc?style=for-the-badge" alt="npm"></a>
-  <a href="https://img.shields.io/david/kapraran/hidenc">
-    <img src="https://img.shields.io/david/kapraran/hidenc?style=for-the-badge" alt="dependencies">
+  <a href="https://img.shields.io/librariesio/github/kapraran/hidenc">
+    <img src="https://img.shields.io/librariesio/github/kapraran/hidenc?style=for-the-badge" alt="dependencies">
   </a>
   <a href="https://img.shields.io/github/repo-size/kapraran/hidenc?style=for-the-badge">
     <img src="https://img.shields.io/github/repo-size/kapraran/hidenc?style=for-the-badge" alt="dependencies">

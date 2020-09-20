@@ -15,7 +15,7 @@ class EncryptAction extends Action {
   action([file, password, ext]) {
     const key = createKey(password, 32)
 
-    this.spinner.text = `Encrypting file: ${file}`
+    this.spinner.text = `Encrypting file "${file}"`
     return encrypt(file, key, {
       extension: ext,
     }).then((outFilepath) => {

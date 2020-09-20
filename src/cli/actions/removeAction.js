@@ -8,7 +8,7 @@ class RemoveAction extends Action {
   }
 
   action([file, passes]) {
-    console.log(`[info] Removing file: ${file}`)
+    this.spinner.text = `Removing file "${file}"`
     return remove(file, passes)
   }
 }
